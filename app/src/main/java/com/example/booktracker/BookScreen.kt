@@ -2,44 +2,49 @@ package com.example.booktracker
 
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun BookScreen(){
+    val viewModel: BookTrackerViewModel = viewModel()
     LazyColumn(
        contentPadding = PaddingValues(
            vertical = 8.dp,
            horizontal = 6.dp
        )
     ){
-        items(mockBookList){ book ->
-            BookItem(book)
+        items(viewModel.state.value){ book ->
+            BookItem(book){ id ->
+                viewModel.toggleFinished(id)
+            }
         }
     }
 
 }
 
 @Composable
-fun BookItem(book: Book){
+fun BookItem(book: Book,
+            onClick: (id: Int) -> Unit
+){
+    val icon = if(book.finished) Icons.Default.Check else Icons.Default.Clear
     Card(
         elevation = 3.dp,
         modifier = Modifier
@@ -50,11 +55,10 @@ fun BookItem(book: Book){
             modifier = Modifier
                 .padding(8.dp)
         ){
-            BookIcon(
-                Icons.Default.Check,
+            FinishedIcon(icon,
                 Modifier
                     .weight(0.15f)
-            )
+            ){ onClick(book.id) }
             BookDetails(
                 book.title,
                 book.author,
@@ -85,12 +89,18 @@ private fun BookDetails(title: String, author: String, modifier: Modifier){
 }
 
 @Composable
-private fun BookIcon(icon: ImageVector, modifier: Modifier){
+private fun FinishedIcon(
+    icon: ImageVector,
+    modifier: Modifier,
+    onClick: () -> Unit
+){
+
     Image(
         imageVector = icon,
         contentDescription = "Book Icon",
-        modifier = Modifier
+        modifier = modifier
             .padding(6.dp)
+            .clickable {onClick()}
     )
 }
 
@@ -103,7 +113,8 @@ private fun BookIcon(icon: ImageVector, modifier: Modifier){
 data class Book(
     val id: Int,
     val title: String,
-    val author: String
+    val author: String,
+    val finished: Boolean = false
 )
 
 val mockBookList = listOf(
