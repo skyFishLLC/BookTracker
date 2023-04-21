@@ -1,0 +1,155 @@
+{
+  "books": [
+    {
+      "r_id": 0,
+      "r_title": "The Fellowship of the Ring",
+	  "r_author": "J. R. R. Tolkien",
+      "r_genre": "Fantasy",
+	  "r_series": "The Lord of the Rings",
+      "r_finished": true
+    },
+	{
+      "r_id": 1,
+      "r_title": "The Two Towers",
+	  "r_author": "J. R. R. Tolkien",
+      "r_genre": "Fantasy",
+	  "r_series": "The Lord of the Rings",
+      "r_finished": false
+    },
+	{
+      "r_id": 2,
+      "r_title": "The Return of the King",
+	  "r_author": "J. R. R. Tolkien",
+      "r_genre": "Fantasy",
+	  "r_series": "The Lord of the Rings",
+      "r_finished": false
+    },
+	{
+      "r_id": 3,
+      "r_title": "The Hobbit",
+	  "r_author": "J. R. R. Tolkien",
+      "r_genre": "Fantasy",
+	  "r_series": "The Lord of the Rings",
+      "r_finished": true
+    },
+	{
+      "r_id": 4,
+      "r_title": "A Christmas Carol",
+	  "r_author": "Charles Dickens",
+      "r_genre": "Christmas",
+      "r_finished": true
+    },
+	{
+      "r_id": 5,
+      "r_title": "A Tale of Two Cities",
+	  "r_author": "Charles Dickens",
+      "r_genre": "Historical Fiction",
+      "r_finished": false
+    },
+	{
+      "r_id": 6,
+      "r_title": "War and Peace",
+	  "r_author": "Leo Tolstoy",
+      "r_genre": "Historical Fiction",
+      "r_finished": false
+    },
+	{
+      "r_id": 7,
+      "r_title": "Moby Dick",
+	  "r_author": "Herman Melville",
+      "r_genre": "Fiction",
+      "r_finished": false
+    },
+	{
+      "r_id": 8,
+      "r_title": "The Adventures of Tom Sawyer",
+	  "r_author": "Mark Twain",
+      "r_genre": "Children's Fiction",
+      "r_finished": true
+    },
+	{
+      "r_id": 9,
+      "r_title": "Alice in Wonderland",
+	  "r_author": "Lewis Carroll",
+      "r_genre": "Fantasy",
+      "r_finished": false
+    },
+	{
+      "r_id": 10,
+      "r_title": "Jane Eyre",
+	  "r_author": "Charlotte Bronte",
+      "r_genre": "Victorian Romance",
+      "r_finished": false
+    },
+	{
+      "r_id": 11,
+      "r_title": "David Copperfield",
+	  "r_author": "Charles Dickens",
+      "r_genre": "Historical Fiction",
+      "r_finished": true
+    },
+	{
+      "r_id": 12,
+      "r_title": "The Lion, the Witch, and the Wardrobe",
+	  "r_author": "C. S. Lewis",
+      "r_genre": "Fantasy",
+	  "r_series": "The Chronicles of Narnia",
+      "r_finished": false
+    },
+	{
+      "r_id": 13,
+      "r_title": "Prince Caspian",
+	  "r_author": "C. S. Lewis",
+      "r_genre": "Fantasy",
+	  "r_series": "The Chronicles of Narnia",
+      "r_finished": false
+    },
+	{
+      "r_id": 14,
+      "r_title": "The Voyage of the Dawn Treader",
+	  "r_author": "C. S. Lewis",
+      "r_genre": "Fantasy",
+	  "r_series": "The Chronicles of Narnia",
+      "r_finished": false
+    },
+	{
+      "r_id": 15,
+      "r_title": "The Silver Chair",
+	  "r_author": "C. S. Lewis",
+      "r_genre": "Fantasy",
+	  "r_series": "The Chronicles of Narnia",
+      "r_finished": false
+    },
+	{
+      "r_id": 16,
+      "r_title": "The Horse and His Boy",
+	  "r_author": "C. S. Lewis",
+      "r_genre": "Fantasy",
+	  "r_series": "The Chronicles of Narnia",
+      "r_finished": false
+    },
+	{
+      "r_id": 17,
+      "r_title": "The Magician's Nephew",
+	  "r_author": "C. S. Lewis",
+      "r_genre": "Fantasy",
+	  "r_series": "The Chronicles of Narnia",
+      "r_finished": false
+    },
+	{
+      "r_id": 18,
+      "r_title": "The Last Battle",
+	  "r_author": "C. S. Lewis",
+      "r_genre": "Fantasy",
+	  "r_series": "The Chronicles of Narnia",
+      "r_finished": false
+    },
+	{
+      "r_id": 19,
+      "r_title": "Android Studio Arctic Fox Essentials - Kotlin Edition",
+	  "r_author": "Neil Smyth",
+      "r_genre": "Mobile App Development",
+      "r_finished": true
+    }
+  ]
+}
