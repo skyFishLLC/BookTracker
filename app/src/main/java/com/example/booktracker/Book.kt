@@ -14,5 +14,5 @@ data class Book(
     @SerializedName("r_series")
     val series: String?,
     @SerializedName("r_finished")
-    val finished: Boolean = false
+    var finished: Boolean = false
 )
