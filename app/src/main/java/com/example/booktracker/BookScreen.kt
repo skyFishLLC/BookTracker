@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun BookScreen(){
+fun BookScreen(onItemClick: (id: Int) -> Unit = {}){
     val viewModel: BookTrackerViewModel = viewModel()
 
     LazyColumn(
@@ -33,9 +33,11 @@ fun BookScreen(){
        )
     ){
         items(viewModel.state.value){ book ->
-            BookItem(book){ id ->
-                viewModel.toggleFinished(id)
-            }
+            BookItem(
+                book,
+                onFinishedClick = { id -> viewModel.toggleFinished(id)},
+                onItemClick = {id -> onItemClick(id)}
+            )
         }
     }
 
@@ -43,13 +45,15 @@ fun BookScreen(){
 
 @Composable
 fun BookItem(book: Book,
-            onClick: (id: Int) -> Unit
+             onFinishedClick: (id: Int) -> Unit,
+             onItemClick: (id: Int) -> Unit
 ){
     val icon = if(book.finished) Icons.Default.Check else Icons.Default.Clear
     Card(
         elevation = 3.dp,
         modifier = Modifier
             .padding(8.dp)
+            .clickable {onItemClick(book.id)}
     ){
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -59,7 +63,7 @@ fun BookItem(book: Book,
             FinishedIcon(icon,
                 Modifier
                     .weight(0.15f)
-            ){ onClick(book.id) }
+            ){ onFinishedClick(book.id) }
             BookDetails(
                 book.title,
                 book.author,
@@ -71,8 +75,16 @@ fun BookItem(book: Book,
 }
 
 @Composable
-private fun BookDetails(title: String, author: String, modifier: Modifier){
-    Column(modifier = modifier){
+fun BookDetails(
+            title: String,
+            author: String,
+            modifier: Modifier,
+            horizontalAlignment: Alignment.Horizontal = Alignment.Start
+){
+    Column(
+            modifier = modifier,
+            horizontalAlignment = horizontalAlignment
+        ){
         Text(
             text = title,
             fontSize = 24.sp,
@@ -90,7 +102,7 @@ private fun BookDetails(title: String, author: String, modifier: Modifier){
 }
 
 @Composable
-private fun FinishedIcon(
+fun FinishedIcon(
     icon: ImageVector,
     modifier: Modifier,
     onClick: () -> Unit
