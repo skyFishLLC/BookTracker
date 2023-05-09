@@ -5,14 +5,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.ConnectException
+import java.net.UnknownHostException
 
 class BookTrackerViewModel(private val stateHandle: SavedStateHandle): ViewModel() {
     private var api: BooksApi
+    private var booksDao = BooksDb.getDaoInstance(BookApplication.getAppContext())
     val state = mutableStateOf(emptyList<Book>())
     private val errorHandler = CoroutineExceptionHandler{_, e ->
         e.printStackTrace()
@@ -31,22 +32,36 @@ class BookTrackerViewModel(private val stateHandle: SavedStateHandle): ViewModel
 
     private fun getBooks() {
         viewModelScope.launch(errorHandler) {
-            val books = getRemoteBooks()
+            val books = getAllBooks()
             state.value = books.restoreFinishedField()
         }
     }
 
-    private suspend fun getRemoteBooks(): List<Book>{
+    private suspend fun getAllBooks(): List<Book>{
         return withContext(Dispatchers.IO){
-            api.getBooks()
+            try {
+                val books = api.getBooks()
+                booksDao.addAll(books)
+                return@withContext books
+            }catch (e: Exception){
+                when(e){
+                    is UnknownHostException,
+                    is ConnectException,
+                    is HttpException -> {
+                            return@withContext booksDao.getAll()
+                        }else -> throw e
+                }
+            }
+
         }
     }
 
     private fun List<Book>.restoreFinishedField(): List<Book> {
         stateHandle.get<List<Int>?>("finished")?.let {selectedIds ->
-            val booksMap = this.associateBy { it.id }
+            val booksMap = this.associateBy { it.id }.toMutableMap()
             selectedIds.forEach {id ->
-                booksMap[id]?.finished = true
+                val book = booksMap[id] ?: return@forEach
+                booksMap[id] = book.copy(finished = true)
             }
             return booksMap.values.toList()
         }
@@ -59,5 +74,28 @@ class BookTrackerViewModel(private val stateHandle: SavedStateHandle): ViewModel
         val book = books[bookIndex]
         books[bookIndex] = book.copy(finished = !book.finished)
         state.value = books
+        viewModelScope.launch { toggleFinishedDb(id, book.finished) }
     }
+
+    private suspend fun toggleFinishedDb(id: Int, oldValue: Boolean) =
+        withContext(Dispatchers.IO){
+            booksDao.update(
+                PartialBook_finished(
+                    id = id,
+                    finished = !oldValue
+                )
+            )
+        }
+
+
 }
+
+
+
+
+
+
+
+
+
+
