@@ -24,6 +24,5 @@ data class Book(
     @SerializedName("r_series")
     val series: String?,
     @ColumnInfo(name = "r_finished")
-    @SerializedName("r_finished")
     val finished: Boolean = false
 )

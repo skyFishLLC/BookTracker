@@ -28,7 +28,7 @@ private fun BookTrackerApp(){
     val navController = rememberNavController()
     NavHost(navController, startDestination = "books"){
         composable(route = "books"){
-            BookScreen(){id ->
+            BooksScreen(){ id ->
                 navController.navigate("books/$id")
             }
         }
@@ -48,6 +48,6 @@ private fun BookTrackerApp(){
 @Composable
 fun DefaultPreview() {
     BookTrackerTheme {
-        BookScreen()
+        BooksScreen()
     }
 }

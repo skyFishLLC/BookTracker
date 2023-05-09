@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun BookScreen(onItemClick: (id: Int) -> Unit = {}){
-    val viewModel: BookTrackerViewModel = viewModel()
+fun BooksScreen(onItemClick: (id: Int) -> Unit = {}){
+    val viewModel: BooksViewModel = viewModel()
 
     LazyColumn(
        contentPadding = PaddingValues(
