@@ -1,8 +1,10 @@
 package com.example.booktracker
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.Text
@@ -20,28 +22,45 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun BookDetailsScreen(){
     val viewModel: BookDetailsViewModel = viewModel()
-    val book = viewModel.state.value
-    if(book != null){
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize().padding(16.dp)
-        ) {
-            val icon = if(book.finished) Icons.Default.Check else Icons.Default.Clear
+    val state = viewModel.state.value
 
-            FinishedIcon(
-                icon = icon,
-                modifier = Modifier.padding(top = 32.dp, bottom = 32.dp),
-                onClick = {}
-            )
-            BookDetails(
-                author = book.author,
-                title = book.title,
-                modifier = Modifier,
-                horizontalAlignment = Alignment.CenterHorizontally
-            )
-            AdditionalDetails(
-                genre = book.genre,
-                series = book.series
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if(state.book != null){
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                val icon = if(state.book.finished) Icons.Default.Check else Icons.Default.Clear
+
+                FinishedIcon(
+                    icon = icon,
+                    modifier = Modifier.padding(top = 32.dp, bottom = 32.dp),
+                    onClick = {}
+                )
+                BookDetails(
+                    author = state.book.author,
+                    title = state.book.title,
+                    modifier = Modifier,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                )
+                AdditionalDetails(
+                    genre = state.book.genre,
+                    series = state.book.series
+                )
+            }
+        }
+        if(state.isLoading){
+            CircularProgressIndicator()
+        }
+        if(state.error != null){
+            Text(
+                text = state.error,
+                fontSize = 30.sp
             )
         }
     }
