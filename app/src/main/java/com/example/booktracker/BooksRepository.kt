@@ -19,7 +19,7 @@ class BooksRepository {
         .create(BooksApi::class.java)
     private var booksDao = BooksDb.getDaoInstance(BookApplication.getAppContext())
 
-    suspend fun getAllBooks(): List<Book>{
+    suspend fun loadBooks(){
         return withContext(Dispatchers.IO){
             try {
                 refreshCache()
@@ -36,6 +36,11 @@ class BooksRepository {
                     }else -> throw e
                 }
             }
+        }
+    }
+
+    suspend fun getCachedBooks(): List<Book>{
+        return withContext(Dispatchers.IO){
             return@withContext booksDao.getAll()
         }
     }
@@ -51,15 +56,14 @@ class BooksRepository {
         )
     }
 
-    suspend fun toggleFinishedDb(id: Int, oldValue: Boolean) =
+    suspend fun toggleFinishedDb(id: Int, value: Boolean) =
         withContext(Dispatchers.IO){
             booksDao.update(
                 PartialBook_finished(
                     id = id,
-                    finished = !oldValue
+                    finished = value
                 )
             )
-            booksDao.getAll()
         }
 
 }

@@ -7,7 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 
 class BooksViewModel(): ViewModel() {
-    private val repo = BooksRepository()
+    private val toggleFinishedUseCase = ToggleFinishedUseCase()
+    private val getBooksUseCase = GetInitialBookListFromNetUseCase()
 
     val state: State<BooksScreenState>
         get() = _state
@@ -31,7 +32,7 @@ class BooksViewModel(): ViewModel() {
 
     private fun getBooks() {
         viewModelScope.launch(errorHandler) {
-            val books = repo.getAllBooks()
+            val books = getBooksUseCase()
             _state.value = _state.value.copy(
                 books = books,
                 isLoading = false
@@ -43,9 +44,8 @@ class BooksViewModel(): ViewModel() {
         val books = _state.value.books.toMutableList()
         val bookIndex = books.indexOfFirst { it.id == id }
         val book = books[bookIndex]
-        books[bookIndex] = book.copy(finished = !book.finished)
         viewModelScope.launch {
-            val updatedBooks = repo.toggleFinishedDb(id, book.finished)
+            val updatedBooks = toggleFinishedUseCase(id, book.finished)
             _state.value = _state.value.copy(books = updatedBooks)
         }
     }
