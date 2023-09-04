@@ -41,17 +41,17 @@ class BooksRepository {
 
     suspend fun getCachedBooks(): List<Book>{
         return withContext(Dispatchers.IO){
-            return@withContext booksDao.getAll()
+            return@withContext booksDao.getAll().toBookList()
         }
     }
 
     private suspend fun refreshCache(){
         val remoteBooks = api.getBooks()
         val finishedBooks = booksDao.getAllFinished()
-        booksDao.addAll(remoteBooks)
+        booksDao.addAll(remoteBooks.toLocalBookList())
         booksDao.updateAll(
             finishedBooks.map{
-                PartialBook_finished(it.id,true)
+                PartialLocalBook_finished(it.id,true)
             }
         )
     }
@@ -59,7 +59,7 @@ class BooksRepository {
     suspend fun toggleFinishedDb(id: Int, value: Boolean) =
         withContext(Dispatchers.IO){
             booksDao.update(
-                PartialBook_finished(
+                PartialLocalBook_finished(
                     id = id,
                     finished = value
                 )

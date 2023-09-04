@@ -1,9 +1,7 @@
 package com.example.booktracker
 
 import android.util.Log
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import retrofit2.Retrofit
@@ -25,9 +23,9 @@ class BookDetailsRepository {
         val mapWrapper = api.getBook(id)
         val remoteBook = mapWrapper.values.first()
         val bookFinished = booksDao.getBook(id).finished
-        booksDao.add(remoteBook)
+        booksDao.add(remoteBook.toLocalBook())
         if(bookFinished){
-            val partialBook = PartialBook_finished(id, true)
+            val partialBook = PartialLocalBook_finished(id, true)
             booksDao.update(partialBook)
         }
     }
@@ -42,11 +40,11 @@ class BookDetailsRepository {
                     is ConnectException,
                     is HttpException -> {
                         Log.e("BooksViewModel","Error: No data to display")
-                        return@withContext booksDao.getBook(id)
+                        return@withContext booksDao.getBook(id).toBook()
                     }else -> throw e
                 }
             }
-            return@withContext booksDao.getBook(id)
+            return@withContext booksDao.getBook(id).toBook()
         }
     }
 }
