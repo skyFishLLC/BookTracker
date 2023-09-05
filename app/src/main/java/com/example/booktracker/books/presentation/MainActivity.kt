@@ -1,15 +1,21 @@
-package com.example.booktracker
+package com.example.booktracker.books.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.booktracker.books.presentation.bookdetails.BookDetailsScreen
+import com.example.booktracker.books.presentation.bookdetails.BookDetailsViewModel
+import com.example.booktracker.books.presentation.booklist.BooksScreen
+import com.example.booktracker.books.presentation.booklist.BooksScreenState
+import com.example.booktracker.books.presentation.booklist.BooksViewModel
 import com.example.booktracker.ui.theme.BookTrackerTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,9 +34,16 @@ private fun BookTrackerApp(){
     val navController = rememberNavController()
     NavHost(navController, startDestination = "books"){
         composable(route = "books"){
-            BooksScreen(){ id ->
-                navController.navigate("books/$id")
-            }
+            val viewModel: BooksViewModel = viewModel()
+            BooksScreen(
+                state = viewModel.state.value,
+                onItemClick = { id ->
+                    navController.navigate("books/$id")
+                },
+                onFinishedClick = {id ->
+                    viewModel.toggleFinished(id)
+                }
+            )
         }
 
         composable(
@@ -39,7 +52,8 @@ private fun BookTrackerApp(){
                     type = NavType.IntType
                 })
             ){
-            BookDetailsScreen()
+            val viewModel: BookDetailsViewModel = viewModel()
+            BookDetailsScreen(viewModel.state.value)
         }
     }
 }
@@ -48,6 +62,10 @@ private fun BookTrackerApp(){
 @Composable
 fun DefaultPreview() {
     BookTrackerTheme {
-        BooksScreen()
+        BooksScreen(
+            BooksScreenState(listOf(),false),
+            {},
+            {_,->}
+        )
     }
 }

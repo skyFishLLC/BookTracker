@@ -1,9 +1,11 @@
-package com.example.booktracker
+package com.example.booktracker.books.presentation.booklist
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.booktracker.books.domain.usecase.GetInitialBookListFromNetUseCase
+import com.example.booktracker.books.domain.usecase.ToggleFinishedUseCase
 import kotlinx.coroutines.*
 
 class BooksViewModel(): ViewModel() {

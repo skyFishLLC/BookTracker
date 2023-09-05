@@ -1,4 +1,4 @@
-package com.example.booktracker
+package com.example.booktracker.books.data.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

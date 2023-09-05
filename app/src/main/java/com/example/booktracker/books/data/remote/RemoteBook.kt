@@ -1,4 +1,4 @@
-package com.example.booktracker
+package com.example.booktracker.books.data.remote
 
 import com.google.gson.annotations.SerializedName
 

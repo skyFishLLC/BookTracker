@@ -1,4 +1,4 @@
-package com.example.booktracker
+package com.example.booktracker.books.presentation.booklist
 
 
 import androidx.compose.foundation.Image
@@ -18,11 +18,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.booktracker.books.domain.model.Book
 
 @Composable
-fun BooksScreen(onItemClick: (id: Int) -> Unit = {}){
-    val viewModel: BooksViewModel = viewModel()
-    val state = viewModel.state.value
+fun BooksScreen(
+    state: BooksScreenState,
+    onItemClick: (id: Int) -> Unit = {},
+    onFinishedClick: (id: Int) -> Unit
+){
 
     Box(
         contentAlignment = Alignment.Center,
@@ -37,7 +40,7 @@ fun BooksScreen(onItemClick: (id: Int) -> Unit = {}){
             items(state.books){ book ->
                 BookItem(
                     book,
-                    onFinishedClick = { id -> viewModel.toggleFinished(id)},
+                    onFinishedClick = { id -> onFinishedClick(id)},
                     onItemClick = {id -> onItemClick(id)}
                 )
             }

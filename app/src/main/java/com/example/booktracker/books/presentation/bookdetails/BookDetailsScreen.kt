@@ -1,4 +1,4 @@
-package com.example.booktracker
+package com.example.booktracker.books.presentation.bookdetails
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.booktracker.books.presentation.booklist.BookDetails
+import com.example.booktracker.books.presentation.booklist.FinishedIcon
 
 @Composable
-fun BookDetailsScreen(){
-    val viewModel: BookDetailsViewModel = viewModel()
-    val state = viewModel.state.value
+fun BookDetailsScreen(state: BookDetailsScreenState){
 
     Box(
         contentAlignment = Alignment.Center,

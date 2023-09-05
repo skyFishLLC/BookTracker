@@ -1,4 +1,4 @@
-package com.example.booktracker
+package com.example.booktracker.books.data.local
 
 import android.content.Context
 import androidx.room.Database
@@ -16,7 +16,7 @@ abstract class BooksDb: RoomDatabase() {
     companion object{
         @Volatile
         private var INSTANCE: BooksDao? = null
-        fun getDaoInstance(context: Context): BooksDao{
+        fun getDaoInstance(context: Context): BooksDao {
             synchronized(this){
                 var instance = INSTANCE
                 if(instance == null){

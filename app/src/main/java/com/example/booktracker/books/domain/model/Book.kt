@@ -1,4 +1,4 @@
-package com.example.booktracker
+package com.example.booktracker.books.domain.model
 
 data class Book(
     val id: Int,

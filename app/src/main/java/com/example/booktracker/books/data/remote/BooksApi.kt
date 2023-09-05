@@ -1,6 +1,6 @@
-package com.example.booktracker
+package com.example.booktracker.books.data.remote
 
-import retrofit2.Call
+import com.example.booktracker.books.data.remote.RemoteBook
 import retrofit2.http.GET
 import retrofit2.http.Query
 

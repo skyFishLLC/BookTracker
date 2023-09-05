@@ -1,6 +1,13 @@
-package com.example.booktracker
+package com.example.booktracker.books.data.repo
 
 import android.util.Log
+import com.example.booktracker.BookApplication
+import com.example.booktracker.books.data.remote.BooksApi
+import com.example.booktracker.books.data.local.BooksDb
+import com.example.booktracker.books.data.local.PartialLocalBook_finished
+import com.example.booktracker.books.data.mapper.toBook
+import com.example.booktracker.books.data.mapper.toLocalBook
+import com.example.booktracker.books.domain.model.Book
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -30,7 +37,7 @@ class BookDetailsRepository {
         }
     }
 
-    suspend fun getSingleBook(id: Int): Book{
+    suspend fun getSingleBook(id: Int): Book {
         return withContext(Dispatchers.IO){
             try {
                 refreshCache(id)

@@ -1,4 +1,8 @@
-package com.example.booktracker
+package com.example.booktracker.books.data.mapper
+
+import com.example.booktracker.books.data.local.LocalBook
+import com.example.booktracker.books.data.remote.RemoteBook
+import com.example.booktracker.books.domain.model.Book
 
 fun Book.toRemoteBook(): RemoteBook {
     return RemoteBook(
