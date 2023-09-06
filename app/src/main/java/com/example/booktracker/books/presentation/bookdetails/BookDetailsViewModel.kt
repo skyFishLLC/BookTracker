@@ -6,11 +6,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booktracker.books.data.repo.BookDetailsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BookDetailsViewModel(private val stateHandle: SavedStateHandle) : ViewModel() {
-    private val repo = BookDetailsRepository()
+@HiltViewModel
+class BookDetailsViewModel @Inject constructor(
+    stateHandle: SavedStateHandle,
+    private val repo: BookDetailsRepository
+) : ViewModel() {
 
     val state: State<BookDetailsScreenState>
         get() = _state

@@ -2,6 +2,7 @@ package com.example.booktracker.books.data.repo
 
 import android.util.Log
 import com.example.booktracker.BookApplication
+import com.example.booktracker.books.data.local.BooksDao
 import com.example.booktracker.books.data.remote.BooksApi
 import com.example.booktracker.books.data.local.BooksDb
 import com.example.booktracker.books.data.local.PartialLocalBook_finished
@@ -15,16 +16,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.ConnectException
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class BookDetailsRepository {
-    private var api: BooksApi = Retrofit.Builder()
-        .addConverterFactory(
-            GsonConverterFactory.create()
-        )
-        .baseUrl("https://booklist-6d5b2-default-rtdb.firebaseio.com/")
-        .build()
-        .create(BooksApi::class.java)
-    private var booksDao = BooksDb.getDaoInstance(BookApplication.getAppContext())
+class BookDetailsRepository @Inject constructor(
+    private val api: BooksApi,
+    private val booksDao: BooksDao
+)  {
 
     private suspend fun refreshCache(id: Int){
         val mapWrapper = api.getBook(id)

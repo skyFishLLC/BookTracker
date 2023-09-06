@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,7 +18,9 @@ import com.example.booktracker.books.presentation.booklist.BooksScreen
 import com.example.booktracker.books.presentation.booklist.BooksScreenState
 import com.example.booktracker.books.presentation.booklist.BooksViewModel
 import com.example.booktracker.ui.theme.BookTrackerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +37,7 @@ private fun BookTrackerApp(){
     val navController = rememberNavController()
     NavHost(navController, startDestination = "books"){
         composable(route = "books"){
-            val viewModel: BooksViewModel = viewModel()
+            val viewModel: BooksViewModel = hiltViewModel()
             BooksScreen(
                 state = viewModel.state.value,
                 onItemClick = { id ->
@@ -52,7 +55,7 @@ private fun BookTrackerApp(){
                     type = NavType.IntType
                 })
             ){
-            val viewModel: BookDetailsViewModel = viewModel()
+            val viewModel: BookDetailsViewModel = hiltViewModel()
             BookDetailsScreen(viewModel.state.value)
         }
     }

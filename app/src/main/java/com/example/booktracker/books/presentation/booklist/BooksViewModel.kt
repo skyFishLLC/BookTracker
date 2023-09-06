@@ -6,11 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booktracker.books.domain.usecase.GetInitialBookListFromNetUseCase
 import com.example.booktracker.books.domain.usecase.ToggleFinishedUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class BooksViewModel(): ViewModel() {
-    private val toggleFinishedUseCase = ToggleFinishedUseCase()
-    private val getBooksUseCase = GetInitialBookListFromNetUseCase()
+@HiltViewModel
+class BooksViewModel @Inject constructor(
+    private val toggleFinishedUseCase: ToggleFinishedUseCase,
+    private val getBooksUseCase: GetInitialBookListFromNetUseCase
+): ViewModel() {
 
     val state: State<BooksScreenState>
         get() = _state
