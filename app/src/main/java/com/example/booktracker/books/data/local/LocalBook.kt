@@ -18,5 +18,5 @@ data class LocalBook(
     @ColumnInfo(name = "r_series")
     val series: String?,
     @ColumnInfo(name = "r_finished")
-    val finished: Boolean = false
+    var finished: Boolean = false
 )
